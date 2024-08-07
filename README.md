@@ -48,7 +48,7 @@ XAMPP: Install XAMPP for a complete local development environment.
 
 Clone the Repository:
 Copy code
-git clone https://github.com/yourusername/pos-system.git
+git clone https://github.com/yourusername/point-of-sale.git
 cd pos-system
 
 **Set Up the Database:**
@@ -61,7 +61,7 @@ Open XAMPP and start the Apache and MySQL services.
 Place the project folder in the htdocs directory of your XAMPP installation.
 Access the Application:
 
-Open your web browser and navigate to http://localhost/pos-system.
+Open your web browser and navigate to http://localhost/point-of-sale.
 Usage
 Login/Register:
 
