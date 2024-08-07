@@ -74,29 +74,6 @@ Add products to the cart, process sales, and view sales history.
 Admin Panel (if applicable):
 
 Manage products, users, and other settings through the admin panel.
-Project Structure
-perl
-Copy code
-pos-system/
-│
-├── css/
-│   └── styles.css
-│
-├── js/
-│   └── scripts.js
-│
-├── includes/
-│   └── db.php
-│
-├── database/
-│   └── pos_system.sql
-│
-├── index.php
-├── login.php
-├── register.php
-├── cashier_panel.php
-├── admin_panel.php
-└── print_receipt.php
 
 css/styles.css: Contains all styles for the application.
 js/scripts.js: Contains JavaScript functions.
