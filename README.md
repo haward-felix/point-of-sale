@@ -1,4 +1,5 @@
 **Hawardian Point of Sale (POS) System**
+
 Welcome to the Point of Sale (POS) System project! This project is designed to provide a comprehensive and user-friendly POS system tailored for cashiers and small businesses. 
 It includes features for managing sales, inventory, and user interactions in an efficient and secure manner.
 
