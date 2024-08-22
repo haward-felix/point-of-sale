@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
     <title>POS System Homepage</title>
     <style>
         body {
@@ -95,5 +96,100 @@
             <a href="register.php" class="button">Register</a>
         </div>
     </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      }).catch(error => {
+        console.log('Service Worker registration failed:', error);
+      });
+  });
+}
+    
+    </script>
+
+<script>
+    // Check if Local Storage is supported
+if (typeof(Storage) !== "undefined") {
+    // Store transaction data
+    localStorage.setItem("transactionData", JSON.stringify(transactionObject));
+
+    // Retrieve transaction data
+    var storedData = JSON.parse(localStorage.getItem("transactionData"));
+    console.log(storedData);
+} else {
+    console.log("Sorry, your browser does not support Web Storage...");
+}
+</script>
+
+<script>
+    let db;
+const request = indexedDB.open("POSDatabase", 1);
+
+request.onupgradeneeded = function(event) {
+    db = event.target.result;
+    let objectStore = db.createObjectStore("transactions", { keyPath: "id", autoIncrement: true });
+    objectStore.createIndex("date", "date", { unique: false });
+    objectStore.createIndex("amount", "amount", { unique: false });
+};
+
+request.onsuccess = function(event) {
+    db = event.target.result;
+};
+
+request.onerror = function(event) {
+    console.log("Error opening IndexedDB:", event);
+};
+
+function saveTransaction(transactionObject) {
+    let transaction = db.transaction(["transactions"], "readwrite");
+    let objectStore = transaction.objectStore("transactions");
+    let request = objectStore.add(transactionObject);
+
+    request.onsuccess = function(event) {
+        console.log("Transaction has been added to your database.");
+    };
+
+    request.onerror = function(event) {
+        console.log("Unable to add transaction:", event);
+    };
+}
+
+function getTransactions() {
+    let transaction = db.transaction(["transactions"], "readonly");
+    let objectStore = transaction.objectStore("transactions");
+    let request = objectStore.getAll();
+
+    request.onsuccess = function(event) {
+        console.log("Transactions retrieved:", request.result);
+    };
+}
+</script>
+
+<script>
+    self.addEventListener('sync', event => {
+  if (event.tag === 'sync-transactions') {
+    event.waitUntil(syncTransactions());
+  }
+});
+
+function syncTransactions() {
+  // Retrieve transactions from IndexedDB
+  // Send them to the PHP backend using Fetch API
+  fetch('/sync_data.php', {
+    method: 'POST',
+    body: JSON.stringify({ transactions: transactions }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(response => response.json())
+    .then(data => {
+      console.log('Transactions synced successfully:', data);
+    });
+}
+</script>
 </body>
 </html>
